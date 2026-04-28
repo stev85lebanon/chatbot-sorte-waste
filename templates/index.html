@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Waste Chatbot Widget</title>
+
+    <style>
+      body {
+        font-family: Arial;
+        margin: 0;
+        background: #f5f5f5;
+      }
+
+      #chat-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: #22c55e;
+        color: white;
+        font-size: 24px;
+        border: none;
+        cursor: pointer;
+      }
+
+      #chat-box {
+        position: fixed;
+        bottom: 90px;
+        right: 20px;
+        width: 320px;
+        height: 420px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        display: none;
+        flex-direction: column;
+      }
+
+      #header {
+        background: #22c55e;
+        color: white;
+        padding: 10px;
+        text-align: center;
+      }
+
+      #chat {
+        flex: 1;
+        padding: 10px;
+        overflow-y: auto;
+        font-size: 14px;
+      }
+
+      .msg {
+        margin: 6px 0;
+        padding: 8px;
+        border-radius: 8px;
+        max-width: 80%;
+      }
+
+      .user {
+        background: #dcfce7;
+        margin-left: auto;
+      }
+
+      .bot {
+        background: #f1f5f9;
+        margin-right: auto;
+      }
+
+      .input-area {
+        display: flex;
+        border-top: 1px solid #ddd;
+      }
+
+      input {
+        flex: 1;
+        border: none;
+        padding: 10px;
+        outline: none;
+      }
+
+      button.send {
+        background: #22c55e;
+        color: white;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <button id="chat-button" onclick="toggleChat()">💬</button>
+
+    <div id="chat-box">
+      <div id="header">Karla Chatbot</div>
+
+      <div id="chat"></div>
+
+      <div class="input-area">
+        <input id="msg" placeholder="Ask something..." />
+        <button class="send" onclick="send()">➤</button>
+      </div>
+    </div>
+
+    <script>
+      window.onload = function () {
+        let chat = document.getElementById("chat");
+
+        chat.innerHTML += `<div class="msg bot">Hello, I am Karla. I can help you with waste sorting. What do you want to throw away?</div>`;
+      };
+
+      function toggleChat() {
+        const box = document.getElementById("chat-box");
+        box.style.display = box.style.display === "flex" ? "none" : "flex";
+      }
+
+      async function send() {
+        let msg = document.getElementById("msg").value;
+        if (!msg) return;
+
+        let chat = document.getElementById("chat");
+
+        chat.innerHTML += `<div class="msg user">${msg}</div>`;
+
+        let res = await fetch("/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: msg }),
+        });
+
+        let data = await res.json();
+
+        chat.innerHTML += `<div class="msg bot">${data.reply}</div>`;
+
+        document.getElementById("msg").value = "";
+        chat.scrollTop = chat.scrollHeight;
+      }
+    </script>
+  </body>
+</html>
