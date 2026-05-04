@@ -1,137 +1,273 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
     <title>Karla Chatbot</title>
 
     <style>
       body {
-        font-family: Arial;
+        font-family: Arial, sans-serif;
       }
 
-      #chat-button {
+      /* 🔥 CHAT BUTTON */
+
+      .chat-toggle {
         position: fixed;
         bottom: 20px;
         right: 20px;
-        width: 60px;
-        height: 60px;
+        width: 65px;
+        height: 65px;
         border-radius: 50%;
-        background: #22c55e;
+
+        background: linear-gradient(135deg, #2ecc71, #27ae60);
         color: white;
-        border: none;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        font-size: 26px;
         cursor: pointer;
+
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+
+        transition: all 0.3s ease;
       }
 
-      #chat-box {
+      /* 🔥 hover effect */
+      .chat-toggle:hover {
+        transform: scale(1.1);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+      }
+
+      /* 🔥 click effect */
+      .chat-toggle:active {
+        transform: scale(0.95);
+      }
+      /* 🔥 CHAT WINDOW */
+      .chat-container {
         position: fixed;
         bottom: 90px;
         right: 20px;
         width: 320px;
-        height: 420px;
+        height: 500px;
         background: white;
-        border-radius: 10px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         display: none;
         flex-direction: column;
-        border: 1px solid #ccc;
+        overflow: hidden;
       }
 
-      #header {
-        background: #22c55e;
+      /* HEADER */
+      .header {
+        background: #2ecc71;
         color: white;
-        padding: 10px;
+        padding: 12px;
         text-align: center;
       }
 
-      #chat {
+      /* CHAT BOX */
+      .chat-box {
         flex: 1;
         padding: 10px;
         overflow-y: auto;
       }
 
-      .msg {
-        margin: 5px;
+      /* MESSAGES */
+      .message {
+        margin: 6px 0;
         padding: 8px;
         border-radius: 8px;
-      }
-      .user {
-        background: #dcfce7;
-        text-align: right;
-      }
-      .bot {
-        background: #f1f5f9;
+        max-width: 75%;
       }
 
+      .user {
+        background: #3498db;
+        color: white;
+        margin-left: auto;
+      }
+
+      .bot {
+        background: #ecf0f1;
+      }
+
+      /* INPUT AREA */
       .input-area {
+        padding: 8px;
+        border-top: 1px solid #ddd;
+      }
+
+      .input-row {
         display: flex;
       }
 
-      input {
+      input[type="text"] {
         flex: 1;
-        padding: 10px;
-        border: none;
+        padding: 8px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
       }
-      button.send {
-        background: #22c55e;
+
+      button {
+        margin-left: 5px;
+        padding: 8px;
+        border: none;
+        border-radius: 6px;
+        background: #2ecc71;
+        color: white;
+        cursor: pointer;
+      }
+
+      .upload-row {
+        margin-top: 5px;
+        display: flex;
+      }
+
+      img.chat-image {
+        width: 100px;
+        margin-top: 5px;
+        border-radius: 6px;
+      }
+      .upload-btn {
+        background: linear-gradient(135deg, #3498db, #2980b9);
         color: white;
         border: none;
-        padding: 10px;
+        border-radius: 8px;
+        padding: 8px 12px;
+        cursor: pointer;
+        transition: 0.3s;
+        font-size: 14px;
+      }
+
+      .upload-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .upload-btn:active {
+        transform: scale(0.95);
       }
     </style>
   </head>
 
   <body>
-    <button id="chat-button" onclick="toggleChat()">Chat</button>
+    <!-- 💬 FLOATING BUTTON -->
+    <div class="chat-toggle" onclick="toggleChat()">💬</div>
 
-    <div id="chat-box">
-      <div id="header">Karla</div>
-      <div id="chat"></div>
+    <!-- 💬 CHAT WINDOW -->
+    <div class="chat-container" id="chatContainer">
+      <div class="header">Karla ♻️</div>
+
+      <div class="chat-box" id="chatBox"></div>
 
       <div class="input-area">
-        <input id="msg" placeholder="Ask something..." />
-        <button class="send" onclick="send()">Send</button>
+        <div class="input-row">
+          <input type="text" id="messageInput" placeholder="Type..." />
+          <button onclick="sendMessage()">Send</button>
+        </div>
+
+        <div class="upload-row">
+          <input type="file" id="imageInput" accept="image/*" hidden />
+          <button
+            onclick="document.getElementById('imageInput').click()"
+            class="upload-btn"
+          >
+            📷 Upload
+          </button>
+        </div>
       </div>
     </div>
 
     <script>
-      let started = false;
+      const chatBox = document.getElementById("chatBox");
+      const chatContainer = document.getElementById("chatContainer");
 
       function toggleChat() {
-        const box = document.getElementById("chat-box");
-        const chat = document.getElementById("chat");
-
-        if (box.style.display !== "flex") {
-          box.style.display = "flex";
-
-          if (!started) {
-            chat.innerHTML += `<div class="msg bot">Karla: Hello, I am Karla. How can I help you?</div>`;
-            started = true;
-          }
+        if (chatContainer.style.display === "flex") {
+          chatContainer.style.display = "none";
         } else {
-          box.style.display = "none";
+          chatContainer.style.display = "flex";
         }
       }
 
-      async function send() {
-        let input = document.getElementById("msg");
-        let msg = input.value.trim();
-        if (!msg) return;
+      function addMessage(text, sender, image = null) {
+        const msg = document.createElement("div");
+        msg.classList.add("message", sender);
+        msg.innerText = text;
+        chatBox.appendChild(msg);
 
-        let chat = document.getElementById("chat");
+        if (image) {
+          const img = document.createElement("img");
+          img.src = image;
+          img.classList.add("chat-image");
+          chatBox.appendChild(img);
+        }
 
-        chat.innerHTML += `<div class="msg user">${msg}</div>`;
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }
 
-        let res = await fetch("/chat", {
+      /* TEXT */
+      function sendMessage() {
+        const input = document.getElementById("messageInput");
+        const message = input.value.trim();
+
+        if (!message) return;
+
+        addMessage(message, "user");
+        input.value = "";
+
+        fetch("/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: msg }),
-        });
-
-        let data = await res.json();
-
-        chat.innerHTML += `<div class="msg bot">${data.reply}</div>`;
-
-        input.value = "";
-        chat.scrollTop = chat.scrollHeight;
+          body: JSON.stringify({ message }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            addMessage(data.reply, "bot", data.image);
+          });
       }
+
+      /* IMAGE */
+      function sendImage() {
+        const fileInput = document.getElementById("imageInput");
+        const file = fileInput.files[0];
+
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append("image", file);
+
+        addMessage("📷 Image sent", "user");
+
+        fetch("/image", {
+          method: "POST",
+          body: formData,
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            addMessage(data.reply, "bot", data.image);
+          });
+      }
+
+      /* ENTER KEY */
+      document
+        .getElementById("messageInput")
+        .addEventListener("keypress", function (e) {
+          if (e.key === "Enter") {
+            sendMessage();
+          }
+        });
+      document
+        .getElementById("imageInput")
+        .addEventListener("change", function () {
+          const fileName = this.files[0]?.name || "";
+          document.getElementById("fileName").innerText = fileName;
+        });
+      /* START MESSAGE */
+      window.onload = () => {
+        addMessage("Hello 👋 What do you want to throw away?", "bot");
+      };
     </script>
   </body>
 </html>
