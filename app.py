@@ -7,26 +7,26 @@ app = Flask(__name__)
 app.secret_key = "secret123"
 
 # ---------------- LOAD DATA ----------------
-with open("data.json", "r") as f:
+with open("data.json", "r", encoding="utf-8") as f:
     data = json.load(f)
 
 # ---------------- NORMALIZE ----------------
 def normalize(text):
     return re.sub(r"[^a-zA-ZæøåÆØÅ\s]", "", text.lower()).strip()
 
-# ---------------- LANGUAGE DETECTION ----------------
+# ---------------- LANGUAGE DETECTION (FIXED) ----------------
 def detect_language(text):
+    # Danish letters → Danish
     if any(c in text for c in "æøå"):
         return "da"
 
+    # ONLY real Danish words (no items like pizza!)
     danish_words = [
         "hej", "hejsa", "goddag",
         "hvad", "hvor", "tak", "hvordan",
-        "blomst", "blomster", "ble", "bleer",
-        "chipsposer", "tandbørste",
-        "pizza", "ren", "fedtet",
-        "godnat", "nej", "jeg", "mener",
-        "må", "kan", "spørg", "spørger", "spørgsmål"
+        "jeg", "mener", "må", "kan",
+        "spørg", "spørger", "spørgsmål",
+        "godnat", "selvfølgelig"
     ]
 
     for word in text.split():
@@ -35,17 +35,23 @@ def detect_language(text):
 
     return "en"
 
+# ---------------- HELPER ----------------
+def get_text(field, lang):
+    if isinstance(field, dict):
+        return field.get(lang, field.get("en", ""))
+    return field
+
 # ---------------- MATCH ITEM ----------------
 def match_item(text):
     waste_items = data.get("waste_items", {})
 
-    # 1️⃣ EXACT MATCH FIRST
+    # exact match
     for key, item in waste_items.items():
         for q in item.get("questions", []):
             if text == q:
                 return key
 
-    # 2️⃣ PARTIAL MATCH
+    # partial match
     for key, item in waste_items.items():
         for q in item.get("questions", []):
             if q in text:
@@ -77,12 +83,6 @@ def is_continue(text):
     keywords = ["spørg", "spørger", "spørgsmål", "må jeg", "kan jeg"]
     return any(k in text for k in keywords)
 
-# ---------------- HELPER ----------------
-def get_text(field, lang):
-    if isinstance(field, dict):
-        return field.get(lang, field.get("en", ""))
-    return field
-
 # ---------------- IMAGE UPLOAD ----------------
 UPLOAD_FOLDER = "static/uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -93,11 +93,8 @@ def handle_image():
     filepath = os.path.join(UPLOAD_FOLDER, file.filename)
     file.save(filepath)
 
-    # 🔥 Demo detection (replace later with AI)
-    detected_item = "plastic bottle"
-
     return jsonify({
-        "reply": f"Karla: I think this is {detected_item}. Put it in plastic.",
+        "reply": "Karla: I think this is plastic. Put it in plastic.",
         "image": "/static/images/plastic.png"
     })
 
@@ -113,22 +110,26 @@ def chat():
 
     print("\n🧠 USER:", text)
 
-    # ---------------- GREETING FIRST ----------------
+    # ---------------- GREETING ----------------
     if is_greeting(text):
         if text in ["hej", "hejsa", "goddag", "hallo"]:
-            return jsonify({
-                "reply": "Karla: Hej 👋 Hvad vil du smide ud?"
-            })
+            return jsonify({"reply": "Karla: Hej 👋 Hvad vil du smide ud?"})
         else:
-            return jsonify({
-                "reply": "Karla: Hello 👋 What do you want to throw away?"
-            })
+            return jsonify({"reply": "Karla: Hello 👋 What do you want to throw away?"})
 
     # ---------------- LANGUAGE ----------------
     lang = detect_language(text)
 
     current_intent = session.get("intent")
     last_intent = session.get("last_intent")
+
+    # 🔥 FIX: reset context if new item detected
+    new_item = match_item(text)
+    if new_item:
+        session.pop("intent", None)
+        session.pop("last_intent", None)
+        current_intent = None
+        last_intent = None
 
     # ---------------- SMALL TALK ----------------
     if is_good_night(text):
@@ -195,7 +196,7 @@ def chat():
                 })
 
     # ---------------- NEW MATCH ----------------
-    item_key = match_item(text)
+    item_key = new_item
 
     if item_key:
         item = data["waste_items"][item_key]
@@ -209,10 +210,10 @@ def chat():
             })
 
         if "answer" in item:
+            session.pop("intent", None)
+
             answer = get_text(item["answer"], lang)
             image = item.get("image")
-
-            session.pop("intent", None)
 
             return jsonify({
                 "reply": f"Karla: {answer}",
@@ -225,7 +226,6 @@ def chat():
         if lang == "da"
         else "Karla: I didn't understand that. Can you rephrase?"
     })
-
 
 # ---------------- RUN ----------------
 if __name__ == "__main__":

@@ -1,10 +1,15 @@
 {
   "waste_items": {
+
     "pizza_box": {
-      "questions": ["pizza", "pizza box", "pizzabakke"],
+      "questions": ["pizza", "pizza box", "pizzaæske", "pizzabakke"],
       "question": {
         "en": "Is the pizza box clean or greasy?",
         "da": "Er pizzabakken ren eller fedtet?"
+      },
+      "follow_up": {
+        "en": "Please say clean or greasy 😊",
+        "da": "Sig venligst ren eller fedtet 😊"
       },
       "options": {
         "clean": {
@@ -21,39 +26,35 @@
             "da": "Smid den i restaffald."
           }
         }
-      },
-      "follow_up": {
-        "en": "Please say clean or greasy 😊",
-        "da": "Sig venligst ren eller fedtet 😊"
-      }
-    },
-
-    "perfume": {
-      "questions": ["perfume", "parfume"],
-      "answer": {
-        "en": "Glass bottle → glass. Pump → residual waste.",
-        "da": "Glasflaske i glas, pumpe i restaffald."
       }
     },
 
     "flowers": {
-      "questions": ["flower", "flowers", "blomster","blomste"],
+      "questions": ["flowers", "flower", "blomster", "blomst"],
       "answer": {
         "en": "Put it in organic waste.",
         "da": "Smid det i madaffald."
       }
     },
 
-    "coffee_filters": {
-      "questions": ["coffee filter", "coffee filters", "kaffefilter", "kaffefiltre"],
+    "chips_bag": {
+      "questions": ["chips", "chips bag", "chipsposer", "chipspåser"],
       "answer": {
-        "en": "Put it in organic waste.",
-        "da": "Smid det i madaffald."
+        "en": "Put it in residual waste.",
+        "da": "Smid det i restaffald."
       }
     },
 
-    "dirty_cans": {
-      "questions": ["dirty cans", "beskidte dåser"],
+    "diapers": {
+      "questions": ["diaper", "diapers", "ble", "bleer"],
+      "answer": {
+        "en": "Put it in residual waste.",
+        "da": "Smid det i restaffald."
+      }
+    },
+
+    "toothbrush": {
+      "questions": ["toothbrush", "tandbørste"],
       "answer": {
         "en": "Put it in residual waste.",
         "da": "Smid det i restaffald."
@@ -68,164 +69,69 @@
       }
     },
 
-    "toothbrush": {
-      "questions": ["toothbrush", "tandbørste"],
+    "perfume": {
+      "questions": ["perfume", "parfume"],
       "answer": {
-        "en": "Put it in residual waste.",
-        "da": "Smid det i restaffald."
+        "en": "Glass bottle goes in glass. Pump goes in residual waste.",
+        "da": "Glasflaske i glas. Pumpen i restaffald."
       }
     },
 
-    "video_tapes": {
-      "questions": ["video tape", "video tapes", "videobånd"],
+    "coffee_filters": {
+      "questions": ["coffee filter", "coffee filters", "kaffefilter", "kaffefiltre"],
       "answer": {
-        "en": "Put it in residual waste.",
-        "da": "Smid det i restaffald."
+        "en": "Put it in organic waste.",
+        "da": "Smid det i madaffald."
       }
     },
 
-    "toys": {
-      "questions": ["toy", "toys", "legetøj"],
+    "coffee_capsule": {
+      "questions": ["coffee capsule", "kaffekapsel"],
       "answer": {
-        "en": "Put it in residual waste unless it has electronics.",
-        "da": "Smid det i restaffald, hvis det ikke har elektronik."
+        "en": "If empty metal capsule → metal. If with coffee → residual waste.",
+        "da": "Tom metal kapsel → metal. Med kaffe → restaffald."
       }
     },
 
-    "lighter": {
-      "questions": ["lighter"],
+    "batteries": {
+      "questions": ["battery", "batteries", "batteri", "batterier"],
       "answer": {
         "en": "Take it to hazardous waste.",
         "da": "Aflever det som farligt affald."
       }
     },
 
-    "mobile_phone": {
-      "questions": ["phone", "mobile", "mobil", "telefon"],
+    "spray": {
+      "questions": ["spray", "spray can", "spraydåse"],
       "answer": {
-        "en": "Take it to electronic waste.",
-        "da": "Aflever det som elektronikaffald."
+        "en": "If empty → metal. Otherwise → hazardous waste.",
+        "da": "Tom → metal. Ellers → farligt affald."
       }
     },
 
-    "brushes": {
-      "questions": ["toilet brush", "dish brush", "toiletbørste", "opvaskebørste"],
+    "glass": {
+      "questions": ["glass", "glas", "bottle", "flaske"],
       "answer": {
-        "en": "Put it in residual waste.",
-        "da": "Smid det i restaffald."
+        "en": "Put it in glass recycling.",
+        "da": "Smid det i glas."
       }
     },
 
-    "ice_skates": {
-      "questions": ["ice skates", "skøjter"],
+    "metal": {
+      "questions": ["metal", "dåse", "øl kapsel"],
       "answer": {
-        "en": "Take it to reuse or recycling center.",
-        "da": "Aflever til genbrug eller genbrugsplads."
-      }
-    },
-
-    "ceramics": {
-      "questions": ["mug", "cup", "krus", "kop"],
-      "answer": {
-        "en": "Put it in residual waste.",
-        "da": "Smid det i restaffald."
-      }
-    },
-
-    "chips_bag": {
-      "questions": ["chips", "chips bag", "chips bags", "chipsposer"],
-      "answer": {
-        "en": "Put it in residual waste.",
-        "da": "Smid det i restaffald."
-      }
-    },
-
-    "dog_bags": {
-      "questions": ["dog bag", "dog bags", "hundepose", "hundeposer"],
-      "answer": {
-        "en": "Put it in residual waste.",
-        "da": "Smid det i restaffald."
-      }
-    },
-
-    "candy_bags": {
-      "questions": ["candy bag", "candy bags", "slikpose", "slikposer"],
-      "answer": {
-        "en": "Put it in plastic.",
-        "da": "Smid det i plast."
-      }
-    },
-
-    "vacuum_bag": {
-      "questions": ["vacuum bag", "vacuum bags", "støvsugerpose"],
-      "answer": {
-        "en": "Put it in residual waste.",
-        "da": "Smid det i restaffald."
-      }
-    },
-
-    "juice_carton": {
-      "questions": ["juice carton", "juice cartons", "juicekarton"],
-      "answer": {
-        "en": "Put it in food & drink cartons.",
-        "da": "Smid det i mad- og drikkekartoner."
-      }
-    },
-
-    "diapers": {
-      "questions": ["diaper", "diapers", "ble", "bleer"],
-      "answer": {
-        "en": "Put it in residual waste.",
-        "da": "Smid det i restaffald."
-      }
-    },
-
-    "paint_batteries_chemicals": {
-      "questions": ["paint", "batteries", "chemicals", "maling", "batterier", "kemikalier"],
-      "answer": {
-        "en": "Take it to hazardous waste.",
-        "da": "Aflever det som farligt affald."
-      }
-    },
-
-    "cables": {
-      "questions": ["cable", "cables", "kabel", "kabler"],
-      "answer": {
-        "en": "Take it to electronic waste.",
-        "da": "Aflever det som elektronikaffald."
-      }
-    },
-
-    "coffee_capsules": {
-      "questions": ["coffee capsule", "coffee capsules", "kaffekapsel", "kaffekapsler"],
-      "answer": {
-        "en": "Empty metal capsules → metal. Capsules with coffee → residual waste.",
-        "da": "Tomme kapsler i metal. Med kaffe i restaffald."
-      }
-    },
-
-    "beer_caps": {
-      "questions": ["beer cap", "beer caps", "ølkapsel", "ølkapsler"],
-      "answer": {
-        "en": "Put it in metal.",
+        "en": "Put it in metal recycling.",
         "da": "Smid det i metal."
       }
     },
 
-    "aluminum_foil": {
-      "questions": ["aluminum foil", "alufolie"],
+    "plastic": {
+      "questions": ["plastic", "plastik"],
       "answer": {
-        "en": "Clean → metal. Dirty → residual waste.",
-        "da": "Ren i metal. Beskidt i restaffald."
-      }
-    },
-
-    "spray_cans": {
-      "questions": ["spray can", "spray cans", "spraydåse", "spraydåser", "flødeskum"],
-      "answer": {
-        "en": "If not empty, take it to hazardous waste.",
-        "da": "Hvis den ikke er tom, aflever som farligt affald."
+        "en": "Put it in plastic recycling.",
+        "da": "Smid det i plast."
       }
     }
+
   }
 }
