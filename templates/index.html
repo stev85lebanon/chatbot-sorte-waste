@@ -125,7 +125,8 @@
       }
 
       img.chat-image {
-        width: 100px;
+        width: 40px;
+        height: auto;
         margin-top: 5px;
         border-radius: 6px;
       }
@@ -147,6 +148,38 @@
 
       .upload-btn:active {
         transform: scale(0.95);
+      }
+
+      .image-row {
+        display: flex;
+        gap: 10px;
+        margin-top: 8px;
+        justify-content: center;
+      }
+
+      .condition-card p {
+        margin: 5px 0;
+        font-size: 14px;
+      }
+      .condition-card {
+        display: flex;
+        align-items: center;
+
+        margin: 4px 0;
+        padding: 4px 0;
+
+        width: 100%;
+      }
+
+      .condition-text {
+        width: 220px; /* fixed width */
+        font-size: 14px;
+      }
+
+      .chat-image {
+        width: 28px;
+        height: 28px;
+        object-fit: contain;
       }
     </style>
   </head>
@@ -224,7 +257,48 @@
         })
           .then((res) => res.json())
           .then((data) => {
-            addMessage(data.reply, "bot", data.image);
+            if (data.image) {
+              const card = document.createElement("div");
+              card.className = "condition-card";
+
+              const text = document.createElement("div");
+              text.className = "condition-text";
+              text.innerText = data.reply;
+
+              const img = document.createElement("img");
+              img.src = data.image;
+              img.className = "chat-image";
+
+              card.appendChild(text);
+              card.appendChild(img);
+
+              chatBox.appendChild(card);
+            } else {
+              addMessage(data.reply, "bot");
+            }
+
+            // Conditions (pizza box)
+            if (data.conditions) {
+              data.conditions.forEach((condition) => {
+                const card = document.createElement("div");
+                card.className = "condition-card";
+
+                const text = document.createElement("div");
+                text.className = "condition-text";
+                text.innerText = condition.label;
+
+                const img = document.createElement("img");
+                img.src = condition.image;
+                img.className = "chat-image";
+
+                card.appendChild(text);
+                card.appendChild(img);
+
+                chatBox.appendChild(card);
+              });
+            }
+
+            chatBox.scrollTop = chatBox.scrollHeight;
           });
       }
 

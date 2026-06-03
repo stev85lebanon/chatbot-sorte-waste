@@ -201,6 +201,7 @@ def chat():
     if item_key:
         item = data["waste_items"][item_key]
 
+        # Old flow with question/options
         if "question" in item:
             session["intent"] = item_key
             question = get_text(item["question"], lang)
@@ -209,22 +210,35 @@ def chat():
                 "reply": f"Karla: {question}"
             })
 
+        # Direct answer flow
         if "answer" in item:
             session.pop("intent", None)
 
             answer = get_text(item["answer"], lang)
-            image = item.get("image")
+
+            # Build conditions in correct language
+            conditions = []
+
+            for condition in item.get("conditions", []):
+                conditions.append({
+                    "label": condition.get(
+                        f"label_{lang}",
+                        condition.get("label_en", "")
+                    ),
+                    "image": condition.get("image")
+                })
 
             return jsonify({
                 "reply": f"Karla: {answer}",
-                "image": image
+                    "image": item.get("image"),
+                "conditions": conditions
             })
 
     # ---------------- FALLBACK ----------------
     return jsonify({
         "reply": "Karla: Jeg forstod det ikke. Kan du formulere det anderledes?"
         if lang == "da"
-        else "Karla: I didn't understand that. Can you rephrase?"
+        else "Karla: I didn't understand that. Can you rephrase or call ?"
     })
 
 # ---------------- RUN ----------------
