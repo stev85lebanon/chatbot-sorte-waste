@@ -2,22 +2,52 @@
   "waste_items": {
     "pizza_box": {
       "questions": ["pizza", "pizza box", "pizzaæske", "pizzabakke"],
-      "answer": {
-        "en": "🍕 Pizza Box",
-        "da": "🍕 Pizzaæske"
+
+      "question": {
+        "en": "Is the pizza box greasy?",
+        "da": "Er pizzaæsken fedtet?"
       },
-      "conditions": [
-        {
-          "label_en": "✅ Clean pizza box → Cardboard",
-          "label_da": "✅ Ren pizzaæske → Pap",
-          "image": "/static/images/paper.png"
+
+      "options": {
+        "yes": {
+          "keywords": ["yes", "y", "ja"],
+
+          "answer": {
+            "en": "🍕 Greasy Pizza Box",
+            "da": "🍕 Fedtet Pizzaæske"
+          },
+
+          "conditions": [
+            {
+              "label_en": "Residual waste",
+              "label_da": "Restaffald",
+              "image": "/static/images/residual.png"
+            }
+          ]
         },
-        {
-          "label_en": "⚠️ Greasy pizza box → Residual waste",
-          "label_da": "⚠️ Fedtet pizzaæske → Restaffald",
-          "image": "/static/images/residual.png"
+
+        "no": {
+          "keywords": ["no", "nej"],
+
+          "answer": {
+            "en": "🍕 Clean Pizza Box",
+            "da": "🍕 Ren Pizzaæske"
+          },
+
+          "conditions": [
+            {
+              "label_en": "Cardboard",
+              "label_da": "Pap",
+              "image": "/static/images/paper.png"
+            }
+          ]
         }
-      ]
+      },
+
+      "follow_up": {
+        "en": "Please answer Yes or No.",
+        "da": "Svar venligst Ja eller Nej."
+      }
     },
     "flowers": {
       "questions": ["flowers", "flower", "blomster", "blomst"],
@@ -64,22 +94,52 @@
 
     "perfume": {
       "questions": ["perfume", "parfume"],
-      "answer": {
-        "en": "🌸 Perfume Bottle",
-        "da": "🌸 Parfumeflaske"
+
+      "question": {
+        "en": "Which part do you want to throw away? glass or pump?",
+        "da": "Hvilken del vil du smide ud?"
       },
-      "conditions": [
-        {
-          "label_en": "Glass bottle → Glass",
-          "label_da": "Glasflaske → Glas",
-          "image": "/static/images/glass&metal.png"
+
+      "options": {
+        "bottle": {
+          "keywords": ["bottle", "glass", "flaske", "glas"],
+
+          "answer": {
+            "en": "🌸 Perfume Glass Bottle",
+            "da": "🌸 Parfume Glasflaske"
+          },
+
+          "conditions": [
+            {
+              "label_en": "Glass recycling",
+              "label_da": "Glas",
+              "image": "/static/images/glass&metal.png"
+            }
+          ]
         },
-        {
-          "label_en": "Pump/spray top → Residual waste",
-          "label_da": "Pumpe/sprayhoved → Restaffald",
-          "image": "/static/images/residual.png"
+
+        "pump": {
+          "keywords": ["pump", "spray", "top", "pumpe", "sprayhoved"],
+
+          "answer": {
+            "en": "🌸 Perfume Pump",
+            "da": "🌸 Parfumepumpe"
+          },
+
+          "conditions": [
+            {
+              "label_en": "Residual waste",
+              "label_da": "Restaffald",
+              "image": "/static/images/residual.png"
+            }
+          ]
         }
-      ]
+      },
+
+      "follow_up": {
+        "en": "Type: bottle or pump",
+        "da": "Skriv: flaske eller pumpe"
+      }
     },
 
     "coffee_filters": {
@@ -98,22 +158,52 @@
 
     "coffee_capsule": {
       "questions": ["coffee capsule", "coffe capsul", "kaffekapsel"],
-      "answer": {
-        "en": "☕ Coffee Capsule",
-        "da": "☕ Kaffekapsel"
+
+      "question": {
+        "en": "Does the capsule still contain coffee?",
+        "da": "Indeholder kapslen stadig kaffe?"
       },
-      "conditions": [
-        {
-          "label_en": "Empty metal capsule → Metal",
-          "label_da": "Tom metalkapsel → Metal",
-          "image": "/static/images/glass&metal.png"
+
+      "options": {
+        "yes": {
+          "keywords": ["yes", "y", "ja"],
+
+          "answer": {
+            "en": "☕ Coffee Capsule with Coffee",
+            "da": "☕ Kaffekapsel med kaffe"
+          },
+
+          "conditions": [
+            {
+              "label_en": "Residual waste",
+              "label_da": "Restaffald",
+              "image": "/static/images/residual.png"
+            }
+          ]
         },
-        {
-          "label_en": "Capsule containing coffee → Residual waste",
-          "label_da": "Kapsel med kaffe → Restaffald",
-          "image": "/static/images/residual.png"
+
+        "no": {
+          "keywords": ["no", "nej"],
+
+          "answer": {
+            "en": "☕ Empty Coffee Capsule",
+            "da": "☕ Tom Kaffekapsel"
+          },
+
+          "conditions": [
+            {
+              "label_en": "Metal",
+              "label_da": "Metal",
+              "image": "/static/images/glass&metal.png"
+            }
+          ]
         }
-      ]
+      },
+
+      "follow_up": {
+        "en": "Please answer Yes or No.",
+        "da": "Svar venligst Ja eller Nej."
+      }
     },
 
     "batteries": {
@@ -128,23 +218,51 @@
     "spray": {
       "questions": ["spray", "spray can", "spraydåse"],
 
-      "answer": {
-        "en": "🧴 Spray Can",
-        "da": "🧴 Spraydåse"
+      "question": {
+        "en": "Is the spray can empty?",
+        "da": "Er spraydåsen tom?"
       },
 
-      "conditions": [
-        {
-          "label_en": "✅ Empty spray can → Metal recycling",
-          "label_da": "✅ Tom spraydåse → Metal",
-          "image": "/static/images/glass&metal.png"
+      "options": {
+        "yes": {
+          "keywords": ["yes", "y", "ja"],
+
+          "answer": {
+            "en": "🧴 Empty Spray Can",
+            "da": "🧴 Tom Spraydåse"
+          },
+
+          "conditions": [
+            {
+              "label_en": "Metal recycling",
+              "label_da": "Metal",
+              "image": "/static/images/glass&metal.png"
+            }
+          ]
         },
-        {
-          "label_en": "⚠️ Not completely empty → Hazardous waste",
-          "label_da": "⚠️ Ikke helt tom → Farligt affald",
-          "image": "/static/images/hazardous.png"
+
+        "no": {
+          "keywords": ["no", "nej"],
+
+          "answer": {
+            "en": "🧴 Not Empty Spray Can",
+            "da": "🧴 Ikke Tom Spraydåse"
+          },
+
+          "conditions": [
+            {
+              "label_en": "Hazardous waste",
+              "label_da": "Farligt affald",
+              "image": "/static/images/hazardous.png"
+            }
+          ]
         }
-      ]
+      },
+
+      "follow_up": {
+        "en": "Please answer Yes or No.",
+        "da": "Svar venligst Ja eller Nej."
+      }
     },
 
     "glass": {

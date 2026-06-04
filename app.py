@@ -155,6 +155,7 @@ def chat():
         })
 
     # ---------------- CONTEXT FLOW ----------------
+        # ---------------- CONTEXT FLOW ----------------
     if current_intent:
         item = data.get("waste_items", {}).get(current_intent)
 
@@ -165,20 +166,41 @@ def chat():
                 session["last_intent"] = current_intent
                 session.pop("intent", None)
 
-                answer = get_text(item["options"][option]["answer"], lang)
-                image = item["options"][option].get("image")
+                selected = item["options"][option]
+
+                answer = get_text(
+                    selected["answer"],
+                    lang
+                )
+
+                conditions = []
+
+                for condition in selected.get("conditions", []):
+                    conditions.append({
+                        "label": condition.get(
+                            f"label_{lang}",
+                            condition.get("label_en", "")
+                        ),
+                        "image": condition.get("image")
+                    })
+
+                image = selected.get("image")
 
                 return jsonify({
                     "reply": f"Karla: {answer}",
-                    "image": image
+                    "image": image,
+                    "conditions": conditions
                 })
 
-            follow_up = get_text(item.get("follow_up", ""), lang)
+            follow_up = get_text(
+                item.get("follow_up", ""),
+                lang
+            )
 
             return jsonify({
                 "reply": f"Karla: {follow_up}"
             })
-
+    
     # ---------------- CORRECTION ----------------
     if last_intent:
         item = data.get("waste_items", {}).get(last_intent)
